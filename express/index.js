@@ -2,15 +2,23 @@ const express = require('express');
 
 const PORT = 3000;
 
-const app = express();
+function createExpressServer(dbContext) {
+  const app = express();
+  const router = app.Router();
 
-app.get('/', (req, res) => res.send('Hello World from Express!'));
+  app.use((req, res, next) => {
+    req.dbContext = dbContext;
+  });
 
-app.use((req, res, next) => {
-  console.log(`Express time: ${Date.now()}`);
-  next();
-});
+  app.get('/', (req, res) => res.send('Hello World from Express!'));
 
-const server = app.listen(PORT, () => console.log(`Express server running on http://localhost:${PORT}`));
+  app.use((req, res, next) => {
+    console.log(`Express time: ${Date.now()}`);
+    next();
+  });
 
-module.exports = server;
+  const server = app.listen(PORT, () => console.log(`Express server running on http://localhost:${PORT}`));
+
+}
+
+module.exports = createExpressServer;
