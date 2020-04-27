@@ -11,8 +11,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// It will not work in this case. Explain about sequence of middleware
-
 const server = app.listen(PORT, () => console.log(`Express server running on http://localhost:${PORT}`));
 
 module.exports = server;
