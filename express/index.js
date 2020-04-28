@@ -1,5 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const expressWinston = require('express-winston');
+const winston = require('winston');
 
 const rootRouter = require('./routes');
 
@@ -21,6 +23,16 @@ function createExpressServer(dbContext) {
   });
 
   app.use('/', rootRouter);
+
+  app.use(expressWinston.errorLogger({
+    transports: [
+      new winston.transports.Console()
+    ],
+    format: winston.format.combine(
+      winston.format.colorize(),
+      winston.format.json()
+    )
+  }));
 
   const server = app.listen(PORT, () => console.log(`Express server running on http://localhost:${PORT}`));
 }
