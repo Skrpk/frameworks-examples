@@ -1,9 +1,14 @@
+const {
+  login,
+  signup
+} = require('../services/auth.service');
+
 function loginController(req) {
-  return 'login';
+  return login(req.payload.email, req.payload.password, req.dbContext);
 }
 
 function signupController(req) {
-  return 'signup';
+  return signup(req.payload.email, req.payload.password, req.dbContext);
 }
 
 module.exports = {

@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const rootRouter = require('./routes');
 
@@ -6,6 +7,8 @@ const PORT = 3000;
 
 function createExpressServer(dbContext) {
   const app = express();
+
+  app.use(bodyParser());
 
   app.use((req, res, next) => {
     req.dbContext = dbContext;

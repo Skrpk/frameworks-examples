@@ -1,4 +1,5 @@
 const Koa = require('koa');
+const bodyParser = require('koa-bodyparser');
 
 const router = require('./routes');
 
@@ -6,6 +7,8 @@ const PORT = 3002;
 
 function createKoaServer(dbContext) {
   const app = new Koa();
+
+  app.use(bodyParser());
 
   app.use(async (ctx, next) => {
     ctx.dbContext = dbContext;
