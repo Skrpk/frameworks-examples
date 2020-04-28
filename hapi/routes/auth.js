@@ -1,16 +1,17 @@
+const {
+  loginController,
+  signupController
+} = require('../controllers/auth.controller');
+
 module.exports = [
   {
     method: 'POST',
     path: '/auth/login',
-    handler: (req,) => {
-      return req.dbContext.users;
-    }
+    handler: loginController
   },
   {
     method: 'POST',
     path: '/auth/signup',
-    handler: (req) => {
-      return req.dbContext.users;
-    }
+    handler: signupController
   }
 ]
