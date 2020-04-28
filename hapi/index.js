@@ -1,5 +1,7 @@
 const Hapi = require('@hapi/hapi');
 
+const router = require('./routes');
+
 const PORT = 3001;
 
 function createHapiServer(dbContext) {
@@ -8,13 +10,7 @@ function createHapiServer(dbContext) {
     host: 'localhost'
   });
 
-  server.route({
-    method: 'GET',
-    path: '/',
-    handler: (req, h) => {
-      return 'Hello world from Hapi!';
-    }
-  });
+  server.route(router);
 
   server.ext('onRequest', (req, h) => {
     req.dbContext = dbContext;

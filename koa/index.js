@@ -1,5 +1,7 @@
 const Koa = require('koa');
 
+const router = require('./routes');
+
 const PORT = 3002;
 
 function createKoaServer(dbContext) {
@@ -15,9 +17,7 @@ function createKoaServer(dbContext) {
     await next();
   });
 
-  app.use(async ctx => {
-    ctx.body = 'Hello world from Koa!';
-  });
+  app.use(router.routes());
 
   const server = app.listen(PORT, () => console.log(`Koa server running on http://localhost:${PORT}`));
 

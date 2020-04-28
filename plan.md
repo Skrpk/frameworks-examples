@@ -10,7 +10,7 @@ At start we have:
     2. check
     
 2. step
-    1. add middleware.
+    1. add middleware. tell about middleware sequence in express and koa
     2. check
     
 ---- switch to presentation and tell about REST. ----
