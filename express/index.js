@@ -8,13 +8,12 @@ const PORT = 3000;
 function createExpressServer(dbContext) {
   const app = express();
 
-  app.use(bodyParser());
+  app.use(bodyParser.json());
 
   app.use((req, res, next) => {
     req.dbContext = dbContext;
     next();
   });
-
 
   app.use((req, res, next) => {
     console.log(`Express time: ${Date.now()}`);
