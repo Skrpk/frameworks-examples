@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const { check, validationResult } = require('express-validator');
 
 const authCheck = require('./auth-check-middleware');
 
@@ -12,8 +13,40 @@ const router = Router();
 
 router.get('/', authCheck, getBookingsController);
 
-router.post('/', authCheck, bookEventController);
+router.post(
+  '/',
+  authCheck,
+  [
+    check('eventId').isLength({ min: 5 })
+  ],
+  (req, res, next) => {
+    const errors = validationResult(req);
 
-router.delete('/', authCheck, cancelBookingController);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+    next();
+  },
+  bookEventController
+);
+
+router.delete(
+  '/',
+  authCheck,
+  [
+    check('bookingId').isLength({ min: 5 })
+  ],
+  (req, res, next) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+    next();
+  },
+  cancelBookingController
+);
 
 module.exports = router;
