@@ -3,13 +3,13 @@ const {
   signup
 } = require('../services/auth.service');
 
-function loginController(req, res) {
-  const result = login(req.body.email, req.body.password, req.dbContext);
+async function loginController(req, res) {
+  const result = await login(req.body.email, req.body.password, req.dbContext);
   res.send(result);
 }
 
-function signupController(req, res) {
-  const result = signup(req.body.email, req.body.password, req.dbContext);
+async function signupController(req, res) {
+  const result = await signup(req.body.email, req.body.password, req.dbContext);
   res.send(result);
 }
 

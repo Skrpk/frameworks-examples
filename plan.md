@@ -31,7 +31,7 @@ At start we have:
 5. step 
     1. add data validation
     2. check
- 
+
 6. step
     1. implement authorization
     2. check
