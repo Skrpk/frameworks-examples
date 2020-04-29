@@ -7,7 +7,11 @@ const {
   eventsController
 } = require('../controllers/events.controller');
 
-router.post('/', authCheck, createEventController);
+const {
+  createValidator
+} = require('../validators/event.validation');
+
+router.post('/', authCheck, createValidator, createEventController);
 
 router.get('/', eventsController);
 

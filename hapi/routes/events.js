@@ -3,6 +3,8 @@ const {
   createEventController
 } = require('../controllers/events.controller');
 
+const { getCreateValidator } = require('../validations/event.validation');
+
 module.exports = [
   {
     method: 'GET',
@@ -13,7 +15,8 @@ module.exports = [
     method: 'POST',
     path: '/events',
     options: {
-      auth: 'jwt'
+      auth: 'jwt',
+      validate: getCreateValidator()
     },
     handler: createEventController
   }

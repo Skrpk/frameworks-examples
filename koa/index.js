@@ -1,5 +1,6 @@
 const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
+const koaValidator = require('koa-async-validator');
 
 const router = require('./routes');
 
@@ -8,7 +9,10 @@ const PORT = 3002;
 function createKoaServer(dbContext) {
   const app = new Koa();
 
+  require('koa-validate')(app);
+
   app.use(bodyParser());
+  app.use(koaValidator());
 
   app.use(async (ctx, next) => {
     ctx.dbContext = dbContext;

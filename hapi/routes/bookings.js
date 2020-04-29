@@ -4,6 +4,7 @@ const {
   cancelBookingController
 } = require('../controllers/bookings.controller');
 
+const { getCreateValidator, getDeleteValidator } = require('../validations/booking.validation');
 
 module.exports = [
   {
@@ -18,7 +19,8 @@ module.exports = [
     method: 'POST',
     path: '/bookings',
     options: {
-      auth: 'jwt'
+      auth: 'jwt',
+      validate: getCreateValidator()
     },
     handler: bookEventController
   },
@@ -26,7 +28,8 @@ module.exports = [
     method: 'DELETE',
     path: '/bookings',
     options: {
-      auth: 'jwt'
+      auth: 'jwt',
+      validate: getDeleteValidator()
     },
     handler: cancelBookingController
   }
