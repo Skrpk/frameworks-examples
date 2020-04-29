@@ -1,42 +1,18 @@
-const formatDate = date => new Date(date).toISOString();
-
-const transformBooking = booking => ({
-  ...booking,
-  ...{
-    createdAt: formatDate(booking.createdAt),
-    updatedAt: formatDate(booking.updatedAt),
-  }
-});
-
-async function bookings() {
-  try {
-    const bookings = await db.Booking.scope('withModels').findAll();
-
-    return bookings.map(booking => transformBooking(booking));
-  } catch (err) {
-    throw err;
-  }
+async function bookings(db) {
+  return await db.Booking.scope('withModels').findAll();
 }
 
-async function bookEvent(args, req) {
-  if (!req.isAuth) {
-    throw new Error('Unauthenticated');
-  }
-
+async function bookEvent(eventId, userId, db) {
   const booking = await db.Booking.create({
-    eventId: args.eventId,
-    userId: 'e3a674de-34ea-42a9-9685-4bd91917b072'
+    eventId,
+    userId
   });
 
   return await db.Booking.scope('withModels').findByPk(booking.id);
 }
 
-async function cancelBooking(args, req) {
-  if (!req.isAuth) {
-    throw new Error('Unauthenticated');
-  }
-
-  const booking = await db.Booking.scope('withModels').findByPk(args.bookingId);
+async function cancelBooking(bookingId, db) {
+  const booking = await db.Booking.scope('withModels').findByPk(bookingId);
   const event = booking.event;
 
   await booking.destroy();

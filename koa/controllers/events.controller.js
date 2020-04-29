@@ -1,23 +1,17 @@
 const {
-  createEvent,
-  getEvents,
-  bookEvent
+  events,
+  createEvent
 } = require('../services/event.service');
 
-function createEvent(ctx, next) {
-  ctx.body = createEvent(ctx.request.body.email, ctx.request.body.password, ctx.dbContext);
+async function eventsController(ctx, next) {
+  ctx.body = await events(ctx.dbContext);
 }
 
-function getEvents(ctx, next) {
-  ctx.body = getEvents(ctx.request.body.email, ctx.request.body.password, ctx.dbContext);
-}
-
-function bookEvent(ctx, next) {
-  ctx.body = bookEvent(ctx.request.body.email, ctx.request.body.password, ctx.dbContext);
+async function createEventController(ctx, next) {
+  ctx.body = await createEvent(ctx.request.body, ctx.userId, ctx.dbContext);
 }
 
 module.exports = {
-  createEvent,
-  getEvents,
-  bookEvent
+  eventsController,
+  createEventController
 }

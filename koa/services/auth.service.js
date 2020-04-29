@@ -1,8 +1,9 @@
 const jwt = require('jsonwebtoken');
 
-async function login(email, password, dbContext) {
+async function login(email, password, db) {
   try {
-    const user = await dbContext.User.findOne({ where: { email } });
+
+    const user = await db.User.findOne({ where: { email } });
 
     if (!user || !user.correctPassword(password)) {
       throw new Error('Invalid creds');
@@ -11,8 +12,9 @@ async function login(email, password, dbContext) {
     const token = jwt.sign(
       {
         email: user.email,
+        userId: user.id
       },
-      'mysecretsuperkey',
+      process.env.JWT_SECRET_KEY,
       {
         expiresIn: '1h'
       }
@@ -29,8 +31,8 @@ async function login(email, password, dbContext) {
 
 }
 
-async function signup(email, password, dbContext) {
-  return await dbContext.User.create({ email, password });
+async function signup(email, password, db) {
+  return await db.User.create({ email, password });
 }
 
 module.exports = {

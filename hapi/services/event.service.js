@@ -1,4 +1,11 @@
-async function events() {
+const formatDate = date => new Date(date).toISOString();
+
+const transformEvent = event => ({
+  ...event.dataValues,
+  ...{ date: formatDate(event.date) }
+});
+
+async function events(db) {
   const events = await db.Event.scope('withUser').findAll({
     include: [{
       model: db.User.scope('withEvents'),
@@ -9,11 +16,7 @@ async function events() {
   return events.map(event => transformEvent(event));
 }
 
-async function createEvent({ title, description, price, date }, userId) {
-  if (!req.isAuth) {
-    throw new Error('Unauthenticated');
-  }
-
+async function createEvent({ title, description, price, date }, userId, db) {
   const event = await db.Event.create({
     title,
     description,
@@ -26,6 +29,6 @@ async function createEvent({ title, description, price, date }, userId) {
 }
 
 module.exports = {
-  login,
-  signup
+  events,
+  createEvent
 }

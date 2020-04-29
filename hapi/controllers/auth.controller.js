@@ -3,12 +3,12 @@ const {
   signup
 } = require('../services/auth.service');
 
-function loginController(req) {
-  return login(req.payload.email, req.payload.password, req.dbContext);
+async function loginController(req) {
+  return await login(req.payload.email, req.payload.password, req.dbContext);
 }
 
-function signupController(req) {
-  return signup(req.payload.email, req.payload.password, req.dbContext);
+async function signupController(req) {
+  return await signup(req.payload.email, req.payload.password, req.dbContext);
 }
 
 module.exports = {

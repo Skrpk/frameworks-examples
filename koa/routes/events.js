@@ -1,15 +1,14 @@
 const router = require('koa-router')();
 
+const authCheck = require('./auth-check-middleware');
+
 const {
-  createEvent,
-  getEvents,
-  bookEvent
+  createEventController,
+  eventsController
 } = require('../controllers/events.controller');
 
-router.post('/event', createEvent);
+router.post('/', authCheck, createEventController);
 
-router.get('/events', getEvents);
-
-router.post('/book-event', bookEvent);
+router.get('/', eventsController);
 
 module.exports = router;
