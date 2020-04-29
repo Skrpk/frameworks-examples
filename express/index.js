@@ -24,15 +24,10 @@ function createExpressServer(dbContext) {
 
   app.use('/', rootRouter);
 
-  app.use(expressWinston.errorLogger({
-    transports: [
-      new winston.transports.Console()
-    ],
-    format: winston.format.combine(
-      winston.format.colorize(),
-      winston.format.json()
-    )
-  }));
+  app.use((err, req, res, next) => {
+    console.error(err);
+    next(err);
+  });
 
   const server = app.listen(PORT, () => console.log(`Express server running on http://localhost:${PORT}`));
 }
