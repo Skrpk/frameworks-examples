@@ -5,30 +5,35 @@ const transformEvent = event => ({
   ...{ date: formatDate(event.date) }
 });
 
-async function events(db) {
-  const events = await db.Event.scope('withUser').findAll({
-    include: [{
-      model: db.User.scope('withEvents'),
-      as: 'user'
-    }]
-  });
+class EventService {
+  constructor(model, userModel) {
+    this.model = model;
+    this.userModel = userModel;
+  }
 
-  return events.map(event => transformEvent(event));
+  events = async () => {
+    const events = await this.model.scope('withUser').findAll({
+      include: [{
+        model: this.userModel.scope('withEvents'),
+        as: 'user'
+      }]
+    });
+
+    return events.map(event => transformEvent(event));
+  }
+
+  createEvent = async ({ title, description, price, date }, userId) => {
+    const event = await this.model.create({
+      title,
+      description,
+      price,
+      date,
+      userId
+    });
+
+    return await this.model.scope('withUser').findByPk(event.id);
+  }
+
 }
 
-async function createEvent({ title, description, price, date }, userId, db) {
-  const event = await db.Event.create({
-    title,
-    description,
-    price,
-    date,
-    userId
-  });
-
-  return await db.Event.scope('withUser').findByPk(event.id);
-}
-
-module.exports = {
-  events,
-  createEvent
-}
+module.exports = EventService;

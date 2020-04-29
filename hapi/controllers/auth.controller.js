@@ -1,17 +1,24 @@
-const {
-  login,
-  signup
-} = require('../services/auth.service');
+class AuthController {
+  constructor(entityService) {
+    this.entityService = entityService;
+  }
 
-async function loginController(req) {
-  return await login(req.payload.email, req.payload.password, req.dbContext);
+  login = async (req) => {
+    try {
+      return await this.entityService.login(req.payload.email, req.payload.password, req.dbContext);
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  signup = async (req) => {
+  try {
+    return await this.entityService.signup(req.payload.email, req.payload.password, req.dbContext);
+  } catch (err) {
+    throw err;
+  }
+
+  }
 }
 
-async function signupController(req) {
-  return await signup(req.payload.email, req.payload.password, req.dbContext);
-}
-
-module.exports = {
-  loginController,
-  signupController,
-}
+module.exports = AuthController;

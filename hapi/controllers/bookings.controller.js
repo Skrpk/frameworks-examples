@@ -1,23 +1,31 @@
-const {
-  bookings,
-  bookEvent,
-  cancelBooking
-} = require('../services/bookings.service');
+class BookingController {
+  constructor(entityService) {
+    this.entityService = entityService;
+  }
 
-async function getBookingsController(req) {
-  return await bookings(req.dbContext);
+  getBookings = async (req) => {
+    try {
+      return await this.entityService.bookings(req.dbContext);
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  bookEvent = async (req) => {
+    try {
+      return await this.entityService.bookEvent(req.payload.eventId, req.userId, req.dbContext);
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  cancelBooking = async (req) => {
+    try {
+      return await this.entityService.cancelBooking(req.payload.bookingId, req.dbContext);
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
-async function bookEventController(req) {
-  return await bookEvent(req.payload.eventId, req.userId, req.dbContext);
-}
-
-async function cancelBookingController(req) {
-  return await cancelBooking(req.payload.bookingId, req.dbContext);
-}
-
-module.exports = {
-  getBookingsController,
-  bookEventController,
-  cancelBookingController
-}
+module.exports = BookingController;

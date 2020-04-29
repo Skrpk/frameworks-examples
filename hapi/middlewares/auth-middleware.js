@@ -1,7 +1,7 @@
-const jwt = require('jsonwebtoken');
+const dbContext = require('../../database/models');
 
 module.exports = async (decoded, request, h) => {
-  const user = await request.dbContext.User.findByPk(decoded.userId);
+  const user = await dbContext.User.findByPk(decoded.userId);
 
   if (!user) {
     return { isValid: false };

@@ -1,10 +1,10 @@
-const {
-  getBookingsController,
-  bookEventController,
-  cancelBookingController
-} = require('../controllers/bookings.controller');
+const di = require('../di');
 
-const { getCreateValidator, getDeleteValidator } = require('../validations/booking.validation');
+const {
+  BookingController,
+  BookingValidator
+} = di.container;
+
 
 module.exports = [
   {
@@ -13,24 +13,24 @@ module.exports = [
     options: {
       auth: 'jwt'
     },
-    handler: getBookingsController
+    handler: BookingController.getBookings
   },
   {
     method: 'POST',
     path: '/bookings',
     options: {
       auth: 'jwt',
-      validate: getCreateValidator()
+      validate: BookingValidator.getCreateValidator()
     },
-    handler: bookEventController
+    handler: BookingController.bookEvent
   },
   {
     method: 'DELETE',
     path: '/bookings',
     options: {
       auth: 'jwt',
-      validate: getDeleteValidator()
+      validate: BookingValidator.getDeleteValidator()
     },
-    handler: cancelBookingController
+    handler: BookingController.cancelBooking
   }
 ]

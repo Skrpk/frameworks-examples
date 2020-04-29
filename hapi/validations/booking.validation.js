@@ -1,22 +1,22 @@
 const Joi = require('@hapi/joi');
 
-function getCreateValidator() {
-  return {
-    payload: Joi.object({
-      eventId: Joi.string()
-    })
-  };
+class BookingValidation {
+  getCreateValidator = () => {
+    return {
+      payload: Joi.object({
+        eventId: Joi.string()
+      })
+    };
+  }
+
+  getDeleteValidator = () => {
+    return {
+      payload: Joi.object({
+        bookingId: Joi.string()
+      })
+    };
+  }
 }
 
-function getDeleteValidator() {
-  return {
-    payload: Joi.object({
-      bookingId: Joi.string()
-    })
-  };
-}
+module.exports = BookingValidation;
 
-module.exports = {
-  getCreateValidator,
-  getDeleteValidator
-};

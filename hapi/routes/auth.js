@@ -1,25 +1,26 @@
-const {
-  loginController,
-  signupController
-} = require('../controllers/auth.controller');
+const di = require('../di');
 
-const { getCreateValidator } = require('../validations/user.validation');
+const {
+  AuthController,
+  UserValidator
+} = di.container;
+
 
 module.exports = [
   {
     method: 'POST',
     path: '/auth/login',
-    handler: loginController,
+    handler: AuthController.login,
     options: {
-      validate: getCreateValidator()
+      validate: UserValidator.getCreateValidator()
     }
   },
   {
     method: 'POST',
     path: '/auth/signup',
-    handler: signupController,
+    handler: AuthController.signup,
     options: {
-      validate: getCreateValidator()
+      validate: UserValidator.getCreateValidator()
     }
   }
 ]

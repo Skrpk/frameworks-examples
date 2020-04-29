@@ -4,9 +4,11 @@ const router = require('./routes');
 
 const authMiddleware = require('./middlewares/auth-middleware');
 
+
+
 const PORT = 3001;
 
-async function createHapiServer(dbContext) {
+async function createHapiServer() {
   const server = Hapi.Server({
     port: PORT,
     host: 'localhost'
@@ -23,11 +25,6 @@ async function createHapiServer(dbContext) {
   // server.auth.default('jwt');
 
   server.route(router);
-
-  server.ext('onRequest', (req, h) => {
-    req.dbContext = dbContext;
-    return h.continue;
-  });
 
   server.ext('onRequest', (req, h) => {
     console.log(`Hapi time: ${Date.now()}`);

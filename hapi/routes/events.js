@@ -1,23 +1,23 @@
-const {
-  getEventsController,
-  createEventController
-} = require('../controllers/events.controller');
+const di = require('../di');
 
-const { getCreateValidator } = require('../validations/event.validation');
+const {
+  EventController,
+  EventValidator
+} = di.container;
 
 module.exports = [
   {
     method: 'GET',
     path: '/events',
-    handler: getEventsController
+    handler: EventController.getEvents
   },
   {
     method: 'POST',
     path: '/events',
     options: {
       auth: 'jwt',
-      validate: getCreateValidator()
+      validate: EventValidator.getCreateValidator()
     },
-    handler: createEventController
+    handler: EventController.createEvent
   }
 ]
